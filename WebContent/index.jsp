@@ -10,15 +10,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" />
-<title>Silver Potato</title>
+<title>Akintan and Cooper</title>
 </head>
 <body>
 
 <div id=wrapper>
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
-		<h1>The Silver Potato</h1>
-		<p>Nam ut tincidunt nisl. Sed consequat neque sed pellentesque porta. Mauris eu tincidunt mauris. Phasellus imperdiet ipsum dui, eget mattis mauris aliquet sit amet. Quisque in convallis urna. Donec dignissim convallis felis, a accumsan ex efficitur vel. Vestibulum arcu sapien, pharetra maximus dapibus sit amet, iaculis sit amet elit. Quisque sodales vitae purus luctus rhoncus. Fusce ullamcorper quam sed porttitor interdum. Duis eleifend, risus non convallis commodo, orci diam fermentum nisl, a tempor ligula nisi et eros. Pellentesque semper accumsan mattis. Integer bibendum, est in ornare rutrum, erat risus lobortis massa, nec tempus sem nunc a ligula. Nulla at dictum nibh.</p>
+		<h1>Akintan and Cooper</h1>
+		<p>Welcome to the wonderful world of Akintan and Cooper.  Our selection of products cannot be beat with unmatched prices.  Stop thinking just go buy something.  "Give me money. Money me. Money now. Me a money needing a lot now."</p>
 	</div>
 </div>
 
