@@ -16,7 +16,6 @@
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
 		<h1>Shop Our Catalog</h1>
-		<p>Hello ${ customer.firstname }</p>
 		${ table }
 	</div>
 </div>
