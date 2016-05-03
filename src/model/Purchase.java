@@ -3,8 +3,6 @@
  */
 package model;
 
-import java.text.NumberFormat;
-
 /**
  * @author mrcooper
  *
@@ -40,7 +38,7 @@ public class Purchase {
 	 * @return String
 	 */
 	public String getHTMLPurchaseRow(){
-		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		//NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		
 		String row ="";
 

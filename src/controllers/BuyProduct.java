@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,7 +45,7 @@ public class BuyProduct extends HttpServlet {
 		
 		int product = Integer.parseInt( request.getParameter("recnum") );
 		//int customer = Integer.parseInt( request.getParameter("customer") );
-		String date_added = LocalDateTime.now().toString();
+		//String date_added = LocalDateTime.now().toString();
 		String status = "draft";
 		
 		PersistenceModule customerModule;
@@ -61,7 +60,7 @@ public class BuyProduct extends HttpServlet {
 		// set up a purchase object
 		purchase.setProduct(product);
 		purchase.setCustomer(customer.getIdnumber());
-		purchase.setDate_added(date_added);
+		//purchase.setDate_added(date_added);
 		purchase.setStatus(status);
 		
 		//create a purchase module to make database calls
