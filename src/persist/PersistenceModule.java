@@ -147,7 +147,7 @@ public class PersistenceModule {
 	 * @return A user object if successful, null if unsuccessful.
 	 */
 	public Customer authenticateUser(String username, String password) {
-		String query = "select * from customer where username=? and password=?";
+		String query = "select idnumber, firstname, lastname, dob, username, password, sessionid from customer where username=? and password=?";
 		
 		Customer customer = null;
 		try {
@@ -161,7 +161,14 @@ public class PersistenceModule {
 			
 			//if we've returned a row, turn that row into a new user object
 			if (rs.next()) {
-				customer = new Customer(rs.getInt("idnumber"), rs.getString("username"), rs.getString("password"));
+				customer = new Customer(
+						rs.getInt("idnumber"),
+						rs.getString("firstname"),
+						rs.getString("lastname"),
+						rs.getString("dob"),
+						rs.getString("username"),
+						rs.getString("password"),
+						rs.getString("sessionid"));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getClass().getName() + ": " + e.getMessage());
