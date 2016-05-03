@@ -1,6 +1,6 @@
   <div id=nav>
-	<p class=greeting>Hello, ${ customer.firstname }!</p>
-	<a href="#"><div class=button>Logout</div></a>
+	<p class=greeting>${!empty customer.firstname ? "Hello," : ""} ${ customer.firstname } ${!empty customer.firstname ? "!" : ""}</p>
+	<a href="Login?logout=true"><div class=button>Logout</div></a>
 	<a href="ShoppingCart"><div class=button>Cart</div></a>
 	<a href="register.jsp"><div class=button>Register</div></a>
 	<a href="ShopProducts"><div class=button>Browse Products</div></a>
