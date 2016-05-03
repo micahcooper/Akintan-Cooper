@@ -109,6 +109,7 @@ public class Login extends HttpServlet {
 
 					//track login attempts (combats: brute force attacks)
 					session.setAttribute("loginAttempts", loginAttempts++);
+					url = "login.jsp";
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

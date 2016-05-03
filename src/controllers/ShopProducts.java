@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Customer;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
@@ -40,22 +41,29 @@ public class ShopProducts extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Create a persistence object
 		PersistenceModule persist;
+		String url;
+		Customer customer = (Customer) request.getSession().getAttribute("customer");
 		
-		try {
-			persist = PersistenceModuleFactory.createPersistenceModule();
-
-			// Get the html table from the REadQuery object
-			String table = persist.getHTMLProductTable( persist.doReadAllProducts() );
+		if( customer != null){
+			try {
+				persist = PersistenceModuleFactory.createPersistenceModule();
+	
+				// Get the html table from the REadQuery object
+				String table = persist.getHTMLProductTable( persist.doReadAllProducts() );
+				
+				// pass execution control to read.jsp along with the table
+				request.setAttribute("table", table);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			// pass execution control to read.jsp along with the table
-			request.setAttribute("table", table);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			url = "/shopProducts.jsp";
 		}
-		
-		String url = "/shopProducts.jsp";
+		else{
+			url = "/login.jsp?message=loginFirst";
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
