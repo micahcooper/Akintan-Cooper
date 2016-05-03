@@ -25,7 +25,6 @@ public class ShopProducts extends HttpServlet {
      */
     public ShopProducts() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
