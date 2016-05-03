@@ -13,6 +13,7 @@ public class Product {
 	private int recnum;
 	private String name;
 	private String description;
+	private String category;
 	private String imageURL;
 	private double cost;
 	private double price;
@@ -25,10 +26,11 @@ public class Product {
 	/**
 	 * 
 	 */
-	public Product(int recnum, String name, String description, double cost, double price, int quantity) {
+	public Product(int recnum, String name, String description, String category, double cost, double price, int quantity) {
 		this.recnum = recnum;
 		this.name = name;
 		this.description = description;
+		this.category=category;
 		this.cost = cost;
 		this.price = price;
 		this.quantity =  quantity;
@@ -48,6 +50,7 @@ public class Product {
 		row +="\t<td>"+this.getRecnum()+"</td>";
 		row +="<td>"+this.getName()+"</td>";
 		row +="<td>"+this.getDescription()+"</td>";
+		row +="<td>"+this.getCategory()+"</td>";
 		row +="<td>"+formatter.format(this.getPrice())+"</td>";
 		row +="<td align=center>"+this.getQuantity()+"</td>";
 		
@@ -163,6 +166,20 @@ public class Product {
 	 */
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 

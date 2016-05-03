@@ -28,27 +28,6 @@ public class PersistenceModule {
 		this.connection = connection;
 	}
   
-  public void doAdd(Product product){
-		String query = "INSERT INTO products (SKU, `Product Type`, Flavor, Cost, Price, Quantity) values (?, ?, ?, ?, ?, ?)";
-
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-
-			//ps.setString(1, product.getSku());
-			//ps.setString(2, product.getProductType());
-			//ps.setString(3, product.getFlavor());
-			ps.setDouble(4, product.getCost());
-			ps.setDouble(5, product.getPrice());
-			ps.setInt(6, product.getQuantity());
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}
-
 	public void doDelete(String sku) {
 		String query = "DELETE FROM products WHERE SKU = ?";
 
@@ -87,34 +66,7 @@ public class PersistenceModule {
 		}
 	}
 
-	/**
-	 * doReadAll() is a refactor of the ReadQuery object's doRead() method
-	 * in the previous version.
-	 * 
-	 * In this version, doReadAll() returns a result set rather than 
-	 * storing it as a field of this helper object. The {@link #getHTMLTable()}
-	 * helper is modified to accept the result set instead.
-	 *  
-	 * @return ResultSet
-	 */
-	public ResultSet doReadAll(){
-		String query = "SELECT SKU,`Product Type`,Flavor,Cost,Price,Quantity FROM products"; // <-- Better
-
-		ResultSet results = null;
-		try {
-			PreparedStatement ps = this.connection.prepareStatement(query);
-			results = ps.executeQuery();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-
-		return results;
-	}
-
-
-
-	
+		
 	/**
 	 * doSearch
 	 * 
@@ -248,7 +200,7 @@ public class PersistenceModule {
 	 * @return ResultSet
 	 */
 	public ResultSet doReadAllProducts(){
-		String query = "SELECT recnum, name, description, imageURL, quantity, cost, price  FROM product";
+		String query = "SELECT recnum, name, description, category, imageURL, quantity, cost, price  FROM product";
 
 		ResultSet results = null;
 		try {
@@ -276,6 +228,7 @@ public class PersistenceModule {
 						results.getInt("recnum"),
 						results.getString("name"),
 						results.getString("description"),
+						results.getString("category"),
 						results.getDouble("cost"),
 						results.getDouble("price"),
 						results.getInt("quantity")
@@ -340,6 +293,7 @@ public class PersistenceModule {
 						results.getInt("recnum"),
 						results.getString("name"),
 						results.getString("description"),
+						results.getString("category"),
 						results.getDouble("cost"),
 						results.getDouble("price"),
 						results.getInt("quantity")
