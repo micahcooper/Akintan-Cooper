@@ -18,7 +18,10 @@
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
 		<h1>Akintan and Cooper</h1>
-		<p>Welcome to the wonderful world of Akintan and Cooper.  Our selection of products cannot be beat and with unmatched prices.  Stop thinking just go buy something.  "Give me money. Money me. Money now. Me a money needing a lot now."</p>
+		${ empty customer.firstname ? "<p>Welcome to the wonderful world of Akintan and Cooper.  Our selection of products cannot be beat and with unmatched prices.  Stop thinking just go buy something.  Give me money. Money me. Money now. Me a money needing a lot now.</p>"
+		:
+		"<div>Browse All Products</div>"}
+		 
 	</div>
 </div>
 

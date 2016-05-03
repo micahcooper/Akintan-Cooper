@@ -1,5 +1,5 @@
   <div id=nav>
-	${ customer.firstname }
+	<p class=greeting>Hello, ${ customer.firstname }!</p>
 	<a href="#"><div class=button>Logout</div></a>
 	<a href="ShoppingCart"><div class=button>Cart</div></a>
 	<a href="register.jsp"><div class=button>Register</div></a>

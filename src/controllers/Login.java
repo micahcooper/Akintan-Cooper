@@ -75,7 +75,6 @@ public class Login extends HttpServlet {
 		if(loginAttempts > 2){
 			String errorMessage = "Error: Number of Login Attempts Exceeded";
 			request.setAttribute("errorMessage", errorMessage);
-			url = "index.jsp";
 		}else{	//proceed
 			//pull the fields from the form
 			String username = request.getParameter("username");
@@ -99,8 +98,9 @@ public class Login extends HttpServlet {
 					session=request.getSession(true);
 					//update the customer table with the new sessionid
 					customerModule.doUpdateCustomerSessionId( customer.getIdnumber(), request.getSession().getId() );
+					
+					System.out.println("adding customer to session: "+customer.toString());
 					session.setAttribute("customer", customer);
-					url="ShopProducts";
 				}
 				else{
 					System.out.println("Customer not found");
@@ -109,7 +109,6 @@ public class Login extends HttpServlet {
 
 					//track login attempts (combats: brute force attacks)
 					session.setAttribute("loginAttempts", loginAttempts++);
-					url = "login.jsp";
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
