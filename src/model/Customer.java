@@ -38,6 +38,8 @@ public class Customer {
 		this.password = password;
 		this.sessionid = sessionid;
 	}
+	
+	
 
 	/**
 	 * Return the id
@@ -133,5 +135,13 @@ public class Customer {
 	 */
 	public void setSessionid(String sessionid) {
 		this.sessionid = sessionid;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Customer [idnumber=" + idnumber + ", username=" + username + ", password=" + password + ", dob=" + dob
+				+ ", firstname=" + firstname + ", lastname=" + lastname + ", sessionid=" + sessionid + "]";
 	}
 }
