@@ -63,6 +63,8 @@ public class BuyProduct extends HttpServlet {
 		//purchase.setDate_added(date_added);
 		purchase.setStatus(status);
 		
+		//TODO create a check to make sure there is enough inventory to cover the purchase
+		
 		//create a purchase module to make database calls
 		PersistenceModule purchaseModule;
 		try {

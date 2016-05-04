@@ -61,6 +61,7 @@ public class ShopProducts extends HttpServlet {
 			url = "/shopProducts.jsp";
 		}
 		else{
+			//TODO add friendly message about logging in first
 			url = "/login.jsp?message=loginFirst";
 		}
 		
