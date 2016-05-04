@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import sun.misc.BASE64Encoder;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  * This class converts plaintext password to a SHA256 hash.
@@ -29,7 +29,8 @@ public final class PasswordService {
 		}
 
 		byte raw[] = md.digest();
-		String hash = (new BASE64Encoder()).encode(raw);
+		//String hash = (new BASE64Encoder()).encode(raw);
+		String hash = new Base64().encodeToString(raw);
 		return hash;
 	}
 }
