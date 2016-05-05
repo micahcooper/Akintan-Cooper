@@ -28,68 +28,6 @@ public class PersistenceModule {
 		this.connection = connection;
 	}
   
-	public void doDelete(String sku) {
-		String query = "DELETE FROM products WHERE SKU = ?";
-
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-
-			ps.setString(1, sku);
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}
-
-	public void doUpdate(Product product){
-		String query = "UPDATE products SET SKU=?, `Product Type`=?, Flavor=?, Cost=?, Price=?, Quantity=? WHERE SKU=?";
-
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-
-			//ps.setString(1, product.getSku());
-            //ps.setString(2, product.getProductType());
-            //ps.setString(3, product.getFlavor());
-            ps.setDouble(4, product.getCost());
-            ps.setDouble(5, product.getPrice());
-            ps.setInt(6, product.getQuantity());
-            //ps.setString(7, product.getSku());
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}
-
-		
-	/**
-	 * doSearch
-	 * 
-	 * @param int
-	 * @return Product
-	 **/
-	public ResultSet doSearch(String sku) {
-		String query = "SELECT SKU,`Product Type`,Flavor,Cost,Price,Quantity FROM products where SKU like ?"; // <-- Better
-
-		ResultSet results = null;
-		try {
-			PreparedStatement ps = this.connection.prepareStatement(query);
-			ps.setString(1, "%"+sku+"%");
-			results = ps.executeQuery();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-
-		return results;
-	}
-	
-
 /*****************************************Start Customer*****************************************/
 	
 	/**
@@ -214,25 +152,54 @@ public class PersistenceModule {
 		return results;
 	}
 	
+	public Product doGetProduct( int recnum ){
+		String query = "select recnum, name, description, category, imageURL, quantity, cost, price from product where recnum=?";
+		
+		Product product = null;
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			//Add parameters to the ?'s in the preparedstatement and execute
+			ps.setInt(1, recnum);
+			ResultSet rs = ps.executeQuery();
+			
+			//if we've returned a row, turn that row into a new user object
+			if (rs.next()) {
+				product = new Product(
+						rs.getInt("recnum"),
+						rs.getString("name"),
+						rs.getString("description"),
+						rs.getString("category"),
+						rs.getString("imageURL"),
+						rs.getInt("quantity"),
+						rs.getDouble("cost"),
+						rs.getDouble("price"));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getClass().getName() + ": " + e.getMessage());
+		}
+		return product;
+	}
+	
 	/**
 	 * @param results
 	 * @return String
 	 */
-	public String getHTMLProductTable(ResultSet results){
+	public String getHTMLProductTable(ResultSet rs){
 		String table ="";
 		table += "<table>\n";
 		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
 		try {
-			while(results.next()) {
+			while(rs.next()) {
 				Product product = new Product(
-						results.getInt("recnum"),
-						results.getString("name"),
-						results.getString("description"),
-						results.getString("category"),
-						results.getDouble("cost"),
-						results.getDouble("price"),
-						results.getInt("quantity")
-						);
+						rs.getInt("recnum"),
+						rs.getString("name"),
+						rs.getString("description"),
+						rs.getString("category"),
+						rs.getString("imageURL"),
+						rs.getInt("quantity"),
+						rs.getDouble("cost"),
+						rs.getDouble("price"));
 				table += product.getHTMLShopRow();
 			}
 		} catch (SQLException e) {
@@ -267,7 +234,7 @@ public class PersistenceModule {
 	}
 	
 	public ResultSet doReadCustomerProducts( String sessionid ){
-		String query = "SELECT product.recnum, product.name, product.description, product.cost, cost, price, purchase.quantity from purchase, customer, product where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
+		String query = "SELECT product.recnum, product.name, product.description, product.category, product.imageURL, product.cost, price, purchase.quantity from purchase, customer, product where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
 		ResultSet results = null;
 		
 		try {
@@ -283,22 +250,22 @@ public class PersistenceModule {
 		return results;
 	}
 	
-	public String getHTMLCartTable( ResultSet results ){
+	public String getHTMLCartTable( ResultSet rs ){
 		String table ="";
 		table += "<table>\n";
 		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
 		try {
-			while(results.next()) {
+			while(rs.next()) {
 				Product product = new Product(
-						results.getInt("recnum"),
-						results.getString("name"),
-						results.getString("description"),
-						results.getString("category"),
-						results.getDouble("cost"),
-						results.getDouble("price"),
-						results.getInt("quantity")
-						);
-				table += product.getHTMLShopRow();
+						rs.getInt("recnum"),
+						rs.getString("name"),
+						rs.getString("description"),
+						rs.getString("category"),
+						rs.getString("imageURL"),
+						rs.getInt("quantity"),
+						rs.getDouble("cost"),
+						rs.getDouble("price"));
+				table += product.getHTMLCartRow();
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

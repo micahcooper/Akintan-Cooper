@@ -26,14 +26,15 @@ public class Product {
 	/**
 	 * 
 	 */
-	public Product(int recnum, String name, String description, String category, double cost, double price, int quantity) {
+	public Product(int recnum, String name, String description, String category, String imageURL, int quantity, double cost, double price) {
 		this.recnum = recnum;
 		this.name = name;
 		this.description = description;
 		this.category=category;
+		this.imageURL=imageURL;
+		this.quantity =  quantity;
 		this.cost = cost;
 		this.price = price;
-		this.quantity =  quantity;
 	}
 	
 	/**
@@ -63,6 +64,39 @@ public class Product {
 		row += "<input type=\"text\" name=\"quantity\" value=\"1\">";
 		row += "<input type=\"hidden\" name=\"recnum\" value=\"" + this.getRecnum() + "\">";
 		row += "<input type=\"submit\" value=\"Buy\"></form>";
+		row +="</td>\n";
+		
+		row +="</tr>\n";
+
+		return row;
+	}
+	
+	/**
+	 * 
+	 * @param results
+	 * @return String
+	 */
+	public String getHTMLCartRow(){
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		
+		String row ="";
+
+		row +="<tr>";
+		row +="\t<td>"+this.getRecnum()+"</td>";
+		row +="<td>"+this.getName()+"</td>";
+		row +="<td>"+this.getDescription()+"</td>";
+		row +="<td>"+this.getCategory()+"</td>";
+		row +="<td>"+formatter.format(this.getPrice())+"</td>";
+		row +="<td align=center>"+this.getQuantity()+"</td>";
+		
+		row +="\n\t<td>";
+		row += "<a class=button href=viewProduct?product=" + this.getRecnum() + " >VIEW</a>";
+		row +="</td>\n";
+		
+		row +="\n\t<td>";
+		row += "<form action=\"BuyProduct\" method=\"post\">";
+		row += "<input type=\"hidden\" name=\"recnum\" value=\"" + this.getRecnum() + "\">";
+		row += "<input type=\"submit\" value=\"Delete\"></form>";
 		row +="</td>\n";
 		
 		row +="</tr>\n";

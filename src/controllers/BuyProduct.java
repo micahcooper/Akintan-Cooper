@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Customer;
+import model.Product;
 import model.Purchase;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
@@ -39,40 +40,48 @@ public class BuyProduct extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Customer customer;
+		Product product = null;;
 		Purchase purchase = new Purchase();
-		Customer customer = new Customer();
 		String url = "ShoppingCart";
 		
-		int product = Integer.parseInt( request.getParameter("recnum") );
-		//int customer = Integer.parseInt( request.getParameter("customer") );
+		int productRecnum = Integer.parseInt( request.getParameter("recnum") );
+		customer = (Customer) request.getSession().getAttribute("customer");
+		int quantityRequested = Integer.parseInt( request.getParameter("quantity"));
 		//String date_added = LocalDateTime.now().toString();
 		String status = "draft";
 		
-		PersistenceModule customerModule;
+		PersistenceModule productModule;
 		try {
-			customerModule = PersistenceModuleFactory.createPersistenceModule();
-			customer = customerModule.doGetCustomer( request.getSession().getId() );
+			productModule = PersistenceModuleFactory.createPersistenceModule();
+			product = productModule.doGetProduct( productRecnum );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+				
 		// set up a purchase object
-		purchase.setProduct(product);
+		purchase.setProduct(product.getRecnum());
 		purchase.setCustomer(customer.getIdnumber());
 		//purchase.setDate_added(date_added);
 		purchase.setStatus(status);
 		
 		//TODO create a check to make sure there is enough inventory to cover the purchase
-		
-		//create a purchase module to make database calls
-		PersistenceModule purchaseModule;
-		try {
-			purchaseModule = PersistenceModuleFactory.createPersistenceModule();
-			purchaseModule.addPurchase(purchase);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if( product.getQuantity() > quantityRequested ){
+			//create a purchase module to make database calls
+			PersistenceModule purchaseModule;
+			try {
+				purchaseModule = PersistenceModuleFactory.createPersistenceModule();
+				purchaseModule.addPurchase(purchase);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			System.out.println("Not enough inventory");
+			request.getSession().setAttribute("message", "not enough in inventory to fulfill order");
+			url = "ShoppingCart?ordered=false";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
