@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -63,8 +64,10 @@ public class BuyProduct extends HttpServlet {
 		// set up a purchase object
 		purchase.setProduct(product.getRecnum());
 		purchase.setCustomer(customer.getIdnumber());
-		//purchase.setDate_added(date_added);
+		Date date = new Date();
+		purchase.setDate_added(date.toString());
 		purchase.setStatus(status);
+		purchase.setQuantity(quantityRequested);
 		
 		//TODO create a check to make sure there is enough inventory to cover the purchase
 		if( product.getQuantity() > quantityRequested ){
@@ -73,6 +76,8 @@ public class BuyProduct extends HttpServlet {
 			try {
 				purchaseModule = PersistenceModuleFactory.createPersistenceModule();
 				purchaseModule.addPurchase(purchase);
+				product.setQuantity(product.getQuantity()-quantityRequested);
+				purchaseModule.updateProduct( product );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

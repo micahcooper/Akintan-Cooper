@@ -182,6 +182,29 @@ public class PersistenceModule {
 		return product;
 	}
 	
+	public void updateProduct(Product product){
+		String query = "UPDATE product SET name=?, description=?, category=?, imageURL=?, quantity=?, cost=?, price=? WHERE recnum=?";
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+
+			ps.setString(1, product.getName());
+            ps.setString(2, product.getDescription());
+            ps.setString(3, product.getCategory());
+            ps.setString(4, product.getImageURL());
+            ps.setInt(5, product.getQuantity());
+            ps.setDouble(6, product.getCost());
+            ps.setDouble(7, product.getPrice());
+            ps.setInt(8, product.getRecnum());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @param results
 	 * @return String
