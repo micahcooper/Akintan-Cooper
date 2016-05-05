@@ -48,7 +48,7 @@ public class ShopProducts extends HttpServlet {
 				persist = PersistenceModuleFactory.createPersistenceModule();
 	
 				// Get the html table from the REadQuery object
-				String table = persist.getHTMLProductTable( persist.doReadAllProducts() );
+				String table = persist.getProductDivs( persist.doReadAllProducts() );
 				
 				// pass execution control to read.jsp along with the table
 				request.setAttribute("table", table);

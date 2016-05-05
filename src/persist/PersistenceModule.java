@@ -235,6 +235,33 @@ public class PersistenceModule {
 		return table;
 	}
 	
+	/**
+	 * @param results
+	 * @return String
+	 */
+	public String getProductDivs(ResultSet rs){
+		String list ="";
+		try {
+			while(rs.next()) {
+				Product product = new Product(
+						rs.getInt("recnum"),
+						rs.getString("name"),
+						rs.getString("description"),
+						rs.getString("category"),
+						rs.getString("imageURL"),
+						rs.getInt("quantity"),
+						rs.getDouble("cost"),
+						rs.getDouble("price"));
+				list += product.getBrowseList();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+	
 /*****************************************Start Purchases*****************************************/
 	public void addPurchase(Purchase purchase){
 		String query = "INSERT INTO purchase (product, customer, quantity, date_added, status) values (?, ?, ?, ?, ?)";
