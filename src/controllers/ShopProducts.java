@@ -43,7 +43,9 @@ public class ShopProducts extends HttpServlet {
 		String url;
 		Customer customer = (Customer) request.getSession().getAttribute("customer");
 		
-		if( customer != null){
+		//TODO removing customer login check for now
+		//if( customer != null){
+		if( true){
 			try {
 				persist = PersistenceModuleFactory.createPersistenceModule();
 	
