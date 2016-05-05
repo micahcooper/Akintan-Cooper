@@ -80,7 +80,7 @@ public class BuyProduct extends HttpServlet {
 		}
 		else{
 			System.out.println("Not enough inventory");
-			request.getSession().setAttribute("message", "not enough in inventory to fulfill order");
+			request.setAttribute("message", "not enough in inventory to fulfill order");
 			url = "ShoppingCart?ordered=false";
 		}
 		

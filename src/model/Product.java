@@ -42,7 +42,7 @@ public class Product {
 	 * @param results
 	 * @return String
 	 */
-	public String getHTMLShopRow(){
+	public String getHTMLProductRow(){
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		
 		String row ="";
@@ -71,39 +71,6 @@ public class Product {
 		return row;
 	}
 	
-	/**
-	 * 
-	 * @param results
-	 * @return String
-	 */
-	public String getHTMLCartRow(){
-		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		
-		String row ="";
-
-		row +="<tr>";
-		row +="\t<td>"+this.getRecnum()+"</td>";
-		row +="<td>"+this.getName()+"</td>";
-		row +="<td>"+this.getDescription()+"</td>";
-		//row +="<td>"+this.getCategory()+"</td>";
-		row +="<td>"+formatter.format(this.getPrice())+"</td>";
-		row +="<td align=center>"+this.getQuantity()+"</td>";
-		
-		row +="\n\t<td>";
-		row += "<a class=button href=viewProduct?product=" + this.getRecnum() + " >VIEW</a>";
-		row +="</td>\n";
-		
-		row +="\n\t<td>";
-		row += "<form action=\"BuyProduct\" method=\"post\">";
-		row += "<input type=\"hidden\" name=\"recnum\" value=\"" + this.getRecnum() + "\">";
-		row += "<input type=\"submit\" value=\"Delete\"></form>";
-		row +="</td>\n";
-		
-		row +="</tr>\n";
-
-		return row;
-	}
-
 	/**
 	 * @return the cost
 	 */

@@ -23,10 +23,11 @@ public class Purchase {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Purchase(int recnum, int product, int customer, String date_added, String date_purchased, String status){
+	public Purchase(int recnum, int product, int customer, int quantity, String date_added, String date_purchased, String status){
 		this.recnum=recnum;
 		this.product=product;
 		this.customer=customer;
+		this.quantity=quantity;
 		this.date_added=date_added;
 		this.date_purchased=date_purchased;
 		this.status=status;

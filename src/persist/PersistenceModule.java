@@ -15,6 +15,7 @@ import model.Product;
 import model.Purchase;
 
 import java.sql.*;
+import java.text.NumberFormat;
 
 
 public class PersistenceModule {
@@ -188,7 +189,7 @@ public class PersistenceModule {
 	public String getHTMLProductTable(ResultSet rs){
 		String table ="";
 		table += "<table>\n";
-		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
+		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Category</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
 		try {
 			while(rs.next()) {
 				Product product = new Product(
@@ -200,7 +201,7 @@ public class PersistenceModule {
 						rs.getInt("quantity"),
 						rs.getDouble("cost"),
 						rs.getDouble("price"));
-				table += product.getHTMLShopRow();
+				table += product.getHTMLProductRow();
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -234,7 +235,12 @@ public class PersistenceModule {
 	}
 	
 	public ResultSet doReadCustomerProducts( String sessionid ){
-		String query = "SELECT product.recnum, product.name, product.description, product.category, product.imageURL, product.quantity, product.cost, product.price from purchase, customer, product where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
+		String query = 
+				"SELECT  product.recnum as productid, product.name as productName, product.description, product.imageURL, product.category, product.quantity as inventoryQuantity, product.cost, product.price,"
+				+ "purchase.recnum as purchaseid, purchase.quantity as purchaseQuantity, date_added, date_purchased, status,"
+				+ "idnumber as customerid, firstname, lastname, dob, password, username, sessionid "
+				+ "from purchase, customer, product "
+				+ "where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
 		ResultSet results = null;
 		
 		try {
@@ -251,21 +257,45 @@ public class PersistenceModule {
 	}
 	
 	public String getHTMLCartTable( ResultSet rs ){
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		
 		String table ="";
 		table += "<table>\n";
 		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
 		try {
 			while(rs.next()) {
 				Product product = new Product(
-						rs.getInt("recnum"),
-						rs.getString("name"),
+						rs.getInt("productid"),
+						rs.getString("productName"),
 						rs.getString("description"),
 						rs.getString("category"),
 						rs.getString("imageURL"),
-						rs.getInt("quantity"),
+						rs.getInt("inventoryQuantity"),
 						rs.getDouble("cost"),
 						rs.getDouble("price"));
-				table += product.getHTMLCartRow();
+				Purchase purchase = new Purchase (
+						rs.getInt("purchaseid"),
+						rs.getInt("productid"),
+						rs.getInt("customerid"),
+						rs.getInt("purchaseQuantity"),
+						rs.getString("date_added"),
+						rs.getString("date_purchased"),
+						rs.getString("status"));
+				
+				table += "<tr>";
+				table += "<td>"+purchase.getRecnum()+"</td>";
+				table += "<td>"+product.getName()+"</td>";
+				table += "<td>"+product.getDescription()+"</td>";
+				table += "<td>"+formatter.format(product.getPrice())+"</td>";
+				table += "<td>"+purchase.getQuantity()+"</td>";
+				
+				table +="\n\t<td>";
+				table += "<form action=\"BuyProduct\" method=\"post\">";
+				table += "<input type=\"hidden\" name=\"recnum\" value=\"" + purchase.getRecnum() + "\">";
+				table += "<input type=\"submit\" value=\"Delete\"></form>";
+				table +="</td>\n";
+				
+				table +="</tr>\n";
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
