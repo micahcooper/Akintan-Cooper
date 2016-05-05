@@ -60,5 +60,5 @@ td{
 	float:left;
 	min-height:250px;
 	margin:10px;
-	width: 200px;
+	min-width: 350px;
 }
