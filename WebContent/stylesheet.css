@@ -1,6 +1,9 @@
 h1{
 	text-align:center;
 }
+form{
+	padding:5px;
+}
 p{
 	padding: 10px;
 }
@@ -51,4 +54,11 @@ td{
 }
 .greeting{
 	float:left;
+}
+.product{
+	border:1px solid black;
+	float:left;
+	min-height:250px;
+	margin:10px;
+	width: 200px;
 }

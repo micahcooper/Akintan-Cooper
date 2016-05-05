@@ -77,23 +77,15 @@ public class Product {
 		String divContainter ="";
 
 		divContainter +="<div class=product>";
-		divContainter +="<p>"+this.getRecnum()+"</p>";
-		divContainter +="<p>"+this.getName()+"</p>";
+		divContainter +="<p><a href=viewProduct?product=" + this.getRecnum() + " >"+this.getName()+"</a></p>";
 		divContainter +="<p>"+this.getDescription()+"</p>";
-		divContainter +="<p>"+this.getCategory()+"</p>";
-		divContainter +="<p>"+formatter.format(this.getPrice())+"</p>";
-		divContainter +="<p>"+this.getQuantity()+"</p>";
+		divContainter +="<p>Category: "+this.getCategory()+"</p>";
+		divContainter +="<p>"+formatter.format(this.getPrice())+" ("+this.getQuantity()+" left)</p>";
 		
-		divContainter +="\n\t<p>";
-		divContainter += "<a class=button href=viewProduct?product=" + this.getRecnum() + " >VIEW</a>";
-		divContainter +="</p>\n";
-		
-		divContainter +="\n\t<p>";
 		divContainter += "<form action=\"BuyProduct\" method=\"post\">";
-		divContainter += "<input type=\"text\" name=\"quantity\" value=\"1\">";
+		divContainter += "<input type=\"text\" name=\"quantity\" value=\"1\" size=\"5\">";
 		divContainter += "<input type=\"hidden\" name=\"recnum\" value=\"" + this.getRecnum() + "\">";
 		divContainter += "<input type=\"submit\" value=\"Buy\"></form>";
-		divContainter +="</p>\n";
 		
 		divContainter +="</div>\n";
 
