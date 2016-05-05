@@ -234,7 +234,7 @@ public class PersistenceModule {
 	}
 	
 	public ResultSet doReadCustomerProducts( String sessionid ){
-		String query = "SELECT product.recnum, product.name, product.description, product.category, product.imageURL, product.cost, price, purchase.quantity from purchase, customer, product where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
+		String query = "SELECT product.recnum, product.name, product.description, product.category, product.imageURL, product.quantity, product.cost, product.price from purchase, customer, product where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
 		ResultSet results = null;
 		
 		try {

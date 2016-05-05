@@ -85,7 +85,7 @@ public class Product {
 		row +="\t<td>"+this.getRecnum()+"</td>";
 		row +="<td>"+this.getName()+"</td>";
 		row +="<td>"+this.getDescription()+"</td>";
-		row +="<td>"+this.getCategory()+"</td>";
+		//row +="<td>"+this.getCategory()+"</td>";
 		row +="<td>"+formatter.format(this.getPrice())+"</td>";
 		row +="<td align=center>"+this.getQuantity()+"</td>";
 		
