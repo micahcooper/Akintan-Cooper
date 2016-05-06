@@ -93,14 +93,27 @@ public class PersistenceModule {
 		}
 	}
 	
+	public void doUpdateQuantity( Purchase quantity ){
+		String query = "UPDATE product set quantity = product.quantity + ?";
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
 
+			ps.setInt(1, quantity.getQuantity());
 
-	public void doDeleteProduct( Product product ){
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+
+	public void doDeleteProduct( Purchase purchase ){
 			String query = "delete from purchase where recnum = ?";
 			try {
 				PreparedStatement ps = connection.prepareStatement(query);
 
-				ps.setInt(1, product.getRecnum());
+				ps.setInt(1, purchase.getRecnum());
 
 				ps.executeUpdate();
 
@@ -363,6 +376,7 @@ public class PersistenceModule {
 				table +="\n\t<td>";
 				table += "<form action=\"DeleteProduct\" method=\"post\">";
 				table += "<input type=\"hidden\" name=\"recnum\" value=\"" + purchase.getRecnum() + "\">";
+				table += "<input type=\"hidden\" name=\"quantity\" value=\"" + purchase.getQuantity() + "\">";
 				table += "<input type=\"submit\" value=\"Delete\"></form>";
 				table +="</td>\n";
 				

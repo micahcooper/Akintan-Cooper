@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Product;
+import model.Purchase;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
@@ -44,14 +45,18 @@ public class DeleteProduct extends HttpServlet {
 				
 				
 				int recnum = Integer.parseInt(request.getParameter("recnum"));
-				Product product = new Product();
-				product.setRecnum(recnum);
+				int quantity = Integer.parseInt(request.getParameter("quantity"));
+				Purchase purchase = new Purchase();
+				Purchase q = new Purchase();
+				purchase.setRecnum(recnum);
+				q.setQuantity(quantity);
 				
 				// create a deleteQuery object
 				PersistenceModule deleteRecModule;
 				try {
 					deleteRecModule = PersistenceModuleFactory.createPersistenceModule();
-					deleteRecModule.doDeleteProduct(product);
+					deleteRecModule.doUpdateQuantity(q);
+					deleteRecModule.doDeleteProduct(purchase);
 					// Get the html table from the REadQuery object
 					String table = deleteRecModule.getHTMLCartTable( deleteRecModule.doReadCustomerProducts( request.getSession().getId() ) );
 					
