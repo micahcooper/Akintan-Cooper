@@ -93,6 +93,22 @@ public class PersistenceModule {
 		}
 	}
 	
+
+
+	public void doDeleteProduct( int recnum ){
+			String query = "delete from product where recnum = ?";
+			try {
+				PreparedStatement ps = connection.prepareStatement(query);
+
+				ps.setInt(1, recnum);
+
+				ps.executeUpdate();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block; add real error handling!
+				e.printStackTrace();
+			}
+		}
 	public void doUpdateCustomerSessionId( int idnumber, String sessionid ){
 		String query = "UPDATE customer set sessionid = ? where idnumber = ?";
 		try {
