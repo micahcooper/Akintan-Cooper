@@ -374,7 +374,7 @@ public class PersistenceModule {
 				table += "<td>"+purchase.getQuantity()+"</td>";
 				
 				table +="\n\t<td>";
-				table += "<form action=\"DeleteProduct\" method=\"post\">";
+				table += "<form action=\"DeletePurchase\" method=\"post\">";
 				table += "<input type=\"hidden\" name=\"recnum\" value=\"" + purchase.getRecnum() + "\">";
 				table += "<input type=\"hidden\" name=\"quantity\" value=\"" + purchase.getQuantity() + "\">";
 				table += "<input type=\"submit\" value=\"Delete\"></form>";
