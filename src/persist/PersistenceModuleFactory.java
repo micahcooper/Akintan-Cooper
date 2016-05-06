@@ -26,7 +26,7 @@ public class PersistenceModuleFactory {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			// establish the database connection
 			p_conn = DriverManager.getConnection( url, user, pass );
-			System.out.println(p_conn.getMetaData());
+			//System.out.println(p_conn.getMetaData());
 		}catch( Exception e ) {	// just in case...
 			e.printStackTrace();
 		}
