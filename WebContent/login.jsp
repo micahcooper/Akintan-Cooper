@@ -15,10 +15,11 @@
 <div id=wrapper>
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
-		<h1>Log In</h1>
+		
 		<span class=loginFirst>${ param.userMessage }</span>
 		<div id=loginForm>
 			<form action="Login" method="POST">
+				<h1>Log In</h1>
 				<input type="text" name="username" placeholder="Username" size=30 required><br>
 				<input type="password" name="password" placeholder ="Password" size=30 required><br>
 				<input type="submit" value="Login"><br>
