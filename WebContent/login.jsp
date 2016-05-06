@@ -16,11 +16,12 @@
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
 		<form id="loginForm" action="Login" method="POST">
+			<p>${ param.userMessage }</p>
 			<h1>Log In</h1>
 			<input type="text" name="username" placeholder="Username" required><br>
 			<input type="password" name="password" placeholder ="Password" required><br>
 			<input type="submit" value="Login"><br>
-			${errorMessage}
+			${ errorMessage }
 		</form>
 	</div>
 </div>

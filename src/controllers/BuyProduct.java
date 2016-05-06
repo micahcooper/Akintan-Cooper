@@ -91,7 +91,7 @@ public class BuyProduct extends HttpServlet {
 			}
 		}
 		else{
-			url = "login.jsp?messge=pleaseLogin";
+			url = "login.jsp?userMessage='Please Login'";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
