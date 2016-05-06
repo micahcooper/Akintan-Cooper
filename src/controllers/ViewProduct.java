@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Customer;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
@@ -44,10 +43,7 @@ public class ViewProduct extends HttpServlet {
 				String url;
 				int productid = Integer.parseInt(request.getParameter("product"));
 				
-				//TODO removing customer login check for now
-				//if( customer != null){
-				if( true){
-					try {
+				try {
 						persist = PersistenceModuleFactory.createPersistenceModule();
 			
 						// Get the html table from the REadQuery object
@@ -62,11 +58,6 @@ public class ViewProduct extends HttpServlet {
 					}
 					
 					url = "/shopProducts.jsp";
-				}
-				else{
-					//TODO add friendly message about logging in first
-					url = "/login.jsp?message=loginFirst";
-				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 				dispatcher.forward(request, response);
