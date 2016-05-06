@@ -9,22 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Product;
 import model.Purchase;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
 /**
- * Servlet implementation class DeleteProduct
+ * Servlet implementation class DeletePurchase
  */
-@WebServlet(description = "Deletes a product from shopping cart", urlPatterns = { "/DeleteProduct" })
-public class DeleteProduct extends HttpServlet {
+@WebServlet(description = "Deletes a product from shopping cart", urlPatterns = { "/DeletePurchase" })
+public class DeletePurchase extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteProduct() {
+    public DeletePurchase() {
         super();
         // TODO Auto-generated constructor stub
     }
