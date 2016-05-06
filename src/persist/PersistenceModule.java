@@ -95,12 +95,12 @@ public class PersistenceModule {
 	
 
 
-	public void doDeleteProduct( int recnum ){
-			String query = "delete from product where recnum = ?";
+	public void doDeleteProduct( Product product ){
+			String query = "delete from purchase where recnum = ?";
 			try {
 				PreparedStatement ps = connection.prepareStatement(query);
 
-				ps.setInt(1, recnum);
+				ps.setInt(1, product.getRecnum());
 
 				ps.executeUpdate();
 

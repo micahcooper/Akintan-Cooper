@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Product;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
@@ -43,12 +44,19 @@ public class DeleteProduct extends HttpServlet {
 				
 				
 				int recnum = Integer.parseInt(request.getParameter("recnum"));
+				Product product = new Product();
+				product.setRecnum(recnum);
 				
 				// create a deleteQuery object
 				PersistenceModule deleteRecModule;
 				try {
 					deleteRecModule = PersistenceModuleFactory.createPersistenceModule();
-					deleteRecModule.doDeleteProduct(recnum);
+					deleteRecModule.doDeleteProduct(product);
+					// Get the html table from the REadQuery object
+					String table = deleteRecModule.getHTMLCartTable( deleteRecModule.doReadCustomerProducts( request.getSession().getId() ) );
+					
+					// pass execution control to read.jsp along with the table
+					request.setAttribute("table", table);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -56,7 +64,7 @@ public class DeleteProduct extends HttpServlet {
 				
 				
 				// pass execution on to the shopping cart jsp
-				String url = "/ShoppingCart";
+				String url = "/shoppingCart.jsp";
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 				dispatcher.forward(request, response);
