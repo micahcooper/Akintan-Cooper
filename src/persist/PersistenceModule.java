@@ -299,18 +299,22 @@ public class PersistenceModule {
 /*****************************************Start Purchases*****************************************/
 	public void addPurchase(Purchase purchase){
 		PreparedStatement ps;
-		String checkExisting = "SELECT FROM purchase where recnum = ?";
-		String query = "INSERT INTO purchase (product, customer, quantity, date_added, status) values (?, ?, ?, ?, ?)";
-		String updatePurchase = "UPDATE purchase set quantity=? where recnum=?";
+		String checkExisting = "SELECT recnum,quantity FROM purchase where product = ? AND customer =?";
+		String addQuery = "INSERT INTO purchase (product, customer, quantity, date_added, status) values (?, ?, ?, ?, ?)";
+		String updatePurchase = "UPDATE purchase set quantity=? where product=? AND customer=?";
 		try {
+			//check to see if the product is already in the purchase table
 			ps = connection.prepareStatement(checkExisting);
-
-			ps.setInt(1, purchase.getRecnum());
-			int exists = ps.executeUpdate();
-			ps.close();
+			ps.setInt(1, purchase.getProduct());
+			ps.setInt(2, purchase.getCustomer());
+			ResultSet rs = ps.executeQuery();
 			
-			if( exists == 0){
-				ps = connection.prepareStatement(query);
+			System.out.println("sql query "+rs.first());
+			
+			if( !rs.first() ){
+				//there is no existing purchase
+				System.out.println("no previous purchase "+ps.toString());
+				ps = connection.prepareStatement(addQuery);
 	
 				ps.setInt(1, purchase.getProduct());
 				ps.setInt(2, purchase.getCustomer());
@@ -318,16 +322,18 @@ public class PersistenceModule {
 				ps.setString(4, purchase.getDate_added());
 				ps.setString(5, purchase.getStatus());
 				ps.executeUpdate();
-				ps.close();
 			}
 			else{
-				ps.close();
+				int currentQuantity = rs.getInt("quantity");
+				//let's update the existing product in the database
+				System.out.println("found the previous purcase");
 				ps = connection.prepareStatement(updatePurchase);
-				ps.setInt(1, purchase.getQuantity());
-				ps.setInt(2, purchase.getRecnum());
+				ps.setInt(1, currentQuantity+purchase.getQuantity());
+				ps.setInt(2, purchase.getProduct());
+				ps.setInt(3, purchase.getCustomer());
 				ps.executeUpdate();
 			}
-
+			ps.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
