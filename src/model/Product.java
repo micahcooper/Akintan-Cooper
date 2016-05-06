@@ -78,7 +78,7 @@ public class Product {
 
 		divContainter +="<div class=product>";
 		divContainter +="<p><img class=browseProduct src=\"products/"+this.getRecnum()+".jpg\" /></p>";
-		divContainter +="<p><a href=viewProduct?product=" + this.getRecnum() + " >"+this.getName()+"</a></p>";
+		divContainter +="<p><a href=ViewProduct?product=" + this.getRecnum() + " >"+this.getName()+"</a></p>";
 		divContainter +="<p>"+this.getDescription()+"</p>";
 		divContainter +="<p>Category: "+this.getCategory()+"</p>";
 		divContainter +="<p>"+formatter.format(this.getPrice())+" ("+this.getQuantity()+" left)</p>";

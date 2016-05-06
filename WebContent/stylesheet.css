@@ -55,6 +55,9 @@ td{
 	width:100%;
 	height:100%;
 }
+.browseProduct{
+	margin:0 auto;
+}
 .greeting{
 	float:left;
 }
@@ -63,5 +66,5 @@ td{
 	float:left;
 	min-height:250px;
 	margin:10px;
-	min-width: 350px;
+	min-width: 320px;
 }
