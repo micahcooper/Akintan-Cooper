@@ -299,7 +299,7 @@ public class PersistenceModule {
 /*****************************************Start Purchases*****************************************/
 	public void addPurchase(Purchase purchase){
 		PreparedStatement ps;
-		String checkExisting = "SELECT recnum,quantity FROM purchase where product = ? AND customer =?";
+		String checkExisting = "SELECT recnum,quantity FROM purchase where status='draft' AND product = ? AND customer =?";
 		String addQuery = "INSERT INTO purchase (product, customer, quantity, date_added, status) values (?, ?, ?, ?, ?)";
 		String updatePurchase = "UPDATE purchase set quantity=? where product=? AND customer=?";
 		try {
