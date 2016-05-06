@@ -15,14 +15,16 @@
 <div id=wrapper>
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
-		<form id="loginForm" action="Login" method="POST">
-			<p>${ param.userMessage }</p>
-			<h1>Log In</h1>
-			<input type="text" name="username" placeholder="Username" required><br>
-			<input type="password" name="password" placeholder ="Password" required><br>
-			<input type="submit" value="Login"><br>
-			${ errorMessage }
-		</form>
+		<h1>Log In</h1>
+		<span class=loginFirst>${ param.userMessage }</span>
+		<div id=loginForm>
+			<form action="Login" method="POST">
+				<input type="text" name="username" placeholder="Username" size=30 required><br>
+				<input type="password" name="password" placeholder ="Password" size=30 required><br>
+				<input type="submit" value="Login"><br>
+				${ errorMessage }
+			</form>
+		</div>
 	</div>
 </div>
 	
