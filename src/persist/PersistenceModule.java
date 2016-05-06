@@ -298,19 +298,35 @@ public class PersistenceModule {
 	
 /*****************************************Start Purchases*****************************************/
 	public void addPurchase(Purchase purchase){
+		PreparedStatement ps;
+		String checkExisting = "SELECT FROM purchase where recnum = ?";
 		String query = "INSERT INTO purchase (product, customer, quantity, date_added, status) values (?, ?, ?, ?, ?)";
-
+		String updatePurchase = "UPDATE purchase set quantity=? where recnum=?";
 		try {
-			PreparedStatement ps = connection.prepareStatement(query);
+			ps = connection.prepareStatement(checkExisting);
 
-			ps.setInt(1, purchase.getProduct());
-			ps.setInt(2, purchase.getCustomer());
-			ps.setInt(3, purchase.getQuantity());
-			ps.setString(4, purchase.getDate_added());
-			ps.setString(5, purchase.getStatus());
-
-
-			ps.executeUpdate();
+			ps.setInt(1, purchase.getRecnum());
+			int exists = ps.executeUpdate();
+			ps.close();
+			
+			if( exists == 0){
+				ps = connection.prepareStatement(query);
+	
+				ps.setInt(1, purchase.getProduct());
+				ps.setInt(2, purchase.getCustomer());
+				ps.setInt(3, purchase.getQuantity());
+				ps.setString(4, purchase.getDate_added());
+				ps.setString(5, purchase.getStatus());
+				ps.executeUpdate();
+				ps.close();
+			}
+			else{
+				ps.close();
+				ps = connection.prepareStatement(updatePurchase);
+				ps.setInt(1, purchase.getQuantity());
+				ps.setInt(2, purchase.getRecnum());
+				ps.executeUpdate();
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
