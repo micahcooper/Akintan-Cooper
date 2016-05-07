@@ -16,7 +16,7 @@
 	<jsp:include page="navbar.jsp"/> 
 	<div id=content>
 		<h1>Shopping Cart</h1>
-		<p>delete is not currently working</p>
+		
 		<span style='color:red;'>${ message }</span>
 		${ table }
 	</div>
