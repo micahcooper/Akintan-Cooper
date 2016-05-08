@@ -323,6 +323,22 @@ public class PersistenceModule {
 		}
 	}
 	
+	public ResultSet doUpdateCartTotal( int customer){
+		String query = "select SUM(product.price * purchase.quantity) as cartprice from silverdb.product, silverdb.purchase where product.recnum = purchase.product and purchase.customer= ?";
+		ResultSet results = null;
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, customer);
+			results = ps.executeQuery();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+		return results;
+	}
+		
+	
 	public void doUpdatePurchaseQuantity( int newQuantityAmount, int recnum ){
 		String query = "UPDATE purchase set quantity = ? where recnum = ?";
 		
@@ -411,7 +427,7 @@ public class PersistenceModule {
 		
 		String table ="";
 		table += "<table>\n";
-		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th></th><th></th></tr>";
+		table += "<tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th>Total</th><th></th><th></th></tr>";
 		try {
 			while(rs.next()) {
 				Product product = new Product(
@@ -423,27 +439,33 @@ public class PersistenceModule {
 						rs.getInt("inventoryQuantity"),
 						rs.getDouble("cost"),
 						rs.getDouble("price"));
-				Purchase purchase = new Purchase (
+				Purchase purchase = new Purchase(
 						rs.getInt("purchaseid"),
 						rs.getInt("productid"),
 						rs.getInt("customerid"),
 						rs.getInt("purchaseQuantity"),
 						rs.getString("date_added"),
 						rs.getString("date_purchased"),
-						rs.getString("status"));
-				
+						rs.getString("status"),
+						rs.getDouble("cartprice"));
+						
+				Purchase purchaseSet = new Purchase();
+				purchaseSet.setCartTotal(rs.getDouble("cartprice"));
+			    double total = purchase.getQuantity() * product.getPrice();
 				table += "<tr>";
 				table += "<td>"+purchase.getRecnum()+"</td>";
 				table += "<td>"+product.getName()+"</td>";
 				table += "<td>"+product.getDescription()+"</td>";
 				table += "<td>"+formatter.format(product.getPrice())+"</td>";
 				table += "<td>"+purchase.getQuantity()+"</td>";
+				table += "<td>"+formatter.format(total)+"</td>";
 				
 				table +="\n\t<td>";
 				table += "<form action=\"UpdatePurchase\" method=\"post\">";
 				table += "<input type=\"hidden\" name=\"purchaseid\" value=\"" + purchase.getRecnum() + "\">";
 				table += "<input type=\"hidden\" name=\"currentCartAmount\" value=\"" + purchase.getQuantity() + "\">";
 				table += "<input type=\"hidden\" name=\"productid\" value=\"" + purchase.getProduct() + "\">";
+				table += "<input type=\"hidden\" name=\"cartTotal\" value=\"" + purchase.getCustomer() + "\">";
 				table += "<input type=\"text\" maxlength=\"4\" size=\"4\" name=\"newQuantityAmount\" value=\"\">";
 				table += "<input type=\"submit\" value=\"Update Quantity\"></form>";
 				table += "</td>\n";
@@ -454,7 +476,13 @@ public class PersistenceModule {
 				table += "<input type=\"submit\" value=\"Delete item\"></form>";
 				table += "</td>\n";
 				table +="</tr>\n";
-			}
+				table += "<tr>";
+				table += "<td>Order Total</td>";
+				table += "<td>"+formatter.format(purchase.getCartTotal())+"</td>";
+				table +="</tr>\n";
+			}		
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
