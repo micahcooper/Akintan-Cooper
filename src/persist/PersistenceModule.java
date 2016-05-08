@@ -125,7 +125,7 @@ public class PersistenceModule {
 	}
 	
 	public void doUpdateProduct( int quantity, int update ){
-		String query = "UPDATE silverdb.product set quantity = product.quantity + ? - ?";
+		String query = "UPDATE product set quantity = product.quantity + ? - ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
 
