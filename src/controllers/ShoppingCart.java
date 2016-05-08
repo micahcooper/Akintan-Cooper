@@ -46,7 +46,7 @@ public class ShoppingCart extends HttpServlet {
 			persist = PersistenceModuleFactory.createPersistenceModule();
 
 			// Get the html table from the REadQuery object
-			String table = persist.getHTMLCartTable( persist.doReadCustomerProducts( request.getSession().getId() ) );
+			String table = persist.getHTMLCartTable( persist.doReadCustomerPurchases( request.getSession().getId() ) );
 			
 			// pass execution control to read.jsp along with the table
 			request.setAttribute("table", table);

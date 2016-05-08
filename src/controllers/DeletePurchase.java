@@ -32,8 +32,7 @@ public class DeletePurchase extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -54,10 +53,10 @@ public class DeletePurchase extends HttpServlet {
 				PersistenceModule deleteRecModule;
 				try {
 					deleteRecModule = PersistenceModuleFactory.createPersistenceModule();
-					deleteRecModule.doUpdateQuantity(q);
+					deleteRecModule.doUpdatePurchaseQuantity(q);
 					deleteRecModule.doDeleteProduct(purchase);
 					// Get the html table from the REadQuery object
-					String table = deleteRecModule.getHTMLCartTable( deleteRecModule.doReadCustomerProducts( request.getSession().getId() ) );
+					String table = deleteRecModule.getHTMLCartTable( deleteRecModule.doReadCustomerPurchases( request.getSession().getId() ) );
 					
 					// pass execution control to read.jsp along with the table
 					request.setAttribute("table", table);
@@ -72,7 +71,6 @@ public class DeletePurchase extends HttpServlet {
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 				dispatcher.forward(request, response);
-		doGet(request, response);
 	}
 
 }
