@@ -60,7 +60,7 @@ public class UpdatePurchase extends HttpServlet {
 			}
 			else{
 				// pass rejection message with the execution on to the shopping cart jsp
-				url = "/shoppingCart.jsp?message=requested quantity is too large";
+				url = "/shoppingCart.jsp?message='requested quantity is too large'";
 			}
 			
 			// Get the html table from the REadQuery object

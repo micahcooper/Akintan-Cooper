@@ -18,6 +18,7 @@
 		<h1>Shopping Cart</h1>
 		
 		<span style='color:red;'>${ message }</span>
+		<span style='color:red;'>${ param.message }</span>
 		${ table }
 	</div>
 </div>
