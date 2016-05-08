@@ -94,65 +94,11 @@ public class PersistenceModule {
 		}
 	}
 	
-	public void doUpdateQuantity( Purchase quantity ){
-		String query = "UPDATE product set quantity = product.quantity + ?";
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-
-			ps.setInt(1, quantity.getQuantity());
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}
-
-	public void doUpdatePurchase( int update, int recnum ){
-		String query = "UPDATE purchase set quantity = ? where purchase.recnum = ?";
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-
-			ps.setInt(1, update);
-			ps.setInt(2, recnum);
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}
 	
-	public void doUpdateProduct( int quantity, int update ){
-		String query = "UPDATE product set quantity = product.quantity + ? - ?";
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
 
-			
-			ps.setInt(1, quantity);
-			ps.setInt(2, update);
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-	}	
-public void doDeleteProduct( Purchase purchase ){
-			String query = "delete from purchase where recnum = ?";
-			try {
-				PreparedStatement ps = connection.prepareStatement(query);
-
-				ps.setInt(1, purchase.getRecnum());
-
-				ps.executeUpdate();
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block; add real error handling!
-				e.printStackTrace();
-			}
-		}
+	
+	
+	
 	public void doUpdateCustomerSessionId( int idnumber, String sessionid ){
 		String query = "UPDATE customer set sessionid = ? where idnumber = ?";
 		try {
@@ -270,6 +216,40 @@ public void doDeleteProduct( Purchase purchase ){
 		}
 	}
 	
+	public void doUpdateProductInventory( int productid, int inventoryAmount, int newQuantityAmount ){
+		
+		String query = "UPDATE product set quantity = ? - ? where recnum = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setInt(1, inventoryAmount);
+			ps.setInt(2, newQuantityAmount);
+			ps.setInt(3, productid);
+			System.out.println("updating inventory: "+ps.toString());
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+	
+	public void doDeleteProduct( Purchase purchase ){
+		String query = "delete from purchase where recnum = ?";
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+
+			ps.setInt(1, purchase.getRecnum());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @param results
 	 * @return String
@@ -328,6 +308,38 @@ public void doDeleteProduct( Purchase purchase ){
 	}
 	
 /*****************************************Start Purchases*****************************************/
+	public void doUpdatePurchaseQuantity( Purchase quantity ){
+		String query = "UPDATE product set quantity = product.quantity + ?";
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+
+			ps.setInt(1, quantity.getQuantity());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+	
+	public void doUpdatePurchaseQuantity( int newQuantityAmount, int recnum ){
+		String query = "UPDATE purchase set quantity = ? where recnum = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+
+			ps.setInt(1, newQuantityAmount);
+			ps.setInt(2, recnum);
+			System.out.println("updating the purchase: "+ps.toString());
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block; add real error handling!
+			e.printStackTrace();
+		}
+	}
+	
 	@SuppressWarnings("resource")
 	public void addPurchase(Purchase purchase){
 		PreparedStatement ps;
@@ -372,7 +384,7 @@ public void doDeleteProduct( Purchase purchase ){
 		}
 	}
 	
-	public ResultSet doReadCustomerProducts( String sessionid ){
+	public ResultSet doReadCustomerPurchases( String sessionid ){
 		String query = 
 				"SELECT  product.recnum as productid, product.name as productName, product.description, product.imageURL, product.category, product.quantity as inventoryQuantity, product.cost, product.price,"
 				+ "purchase.recnum as purchaseid, purchase.quantity as purchaseQuantity, date_added, date_purchased, status,"
@@ -429,9 +441,10 @@ public void doDeleteProduct( Purchase purchase ){
 				
 				table +="\n\t<td>";
 				table += "<form action=\"UpdatePurchase\" method=\"post\">";
-				table += "<input type=\"hidden\" name=\"recnum\" value=\"" + purchase.getRecnum() + "\">";
-				table += "<input type=\"hidden\" name=\"quantity\" value=\"" + purchase.getQuantity() + "\">";
-				table += "<input type=\"text\" maxlength=\"4\" size=\"4\" name=\"update\" value=\"" +"\">";
+				table += "<input type=\"hidden\" name=\"purchaseid\" value=\"" + purchase.getRecnum() + "\">";
+				table += "<input type=\"hidden\" name=\"currentCartAmount\" value=\"" + purchase.getQuantity() + "\">";
+				table += "<input type=\"hidden\" name=\"productid\" value=\"" + purchase.getProduct() + "\">";
+				table += "<input type=\"text\" maxlength=\"4\" size=\"4\" name=\"newQuantityAmount\" value=\"\">";
 				table += "<input type=\"submit\" value=\"Update Quantity\"></form>";
 				table += "</td>\n";
 				table += "<td>";
