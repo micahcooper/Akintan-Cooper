@@ -22,8 +22,6 @@ import model.Purchase;
 import java.sql.*;
 import java.text.NumberFormat;
 
-
-
 public class PersistenceModule {
 
 	private Connection connection = null;
@@ -44,11 +42,13 @@ public class PersistenceModule {
 	 * @return A user object if successful, null if unsuccessful.
 	 */
 	public Customer authenticateUser(String username, String password) {
+		PreparedStatement ps = null;
+		Customer customer = null;
+		
 		String query = "select idnumber, firstname, lastname, dob, username, password, sessionid from customer where username=? and password=?";
 		
-		Customer customer = null;
 		try {
-			PreparedStatement ps = connection.prepareStatement(query);
+			ps = connection.prepareStatement(query);
 			System.out.println("username: "+username);
 			
 			//Add parameters to the ?'s in the preparedstatement and execute
@@ -59,14 +59,18 @@ public class PersistenceModule {
 			//if we've returned a row, turn that row into a new user object
 			if (rs.next()) {
 				customer = new Customer(
-						rs.getInt("idnumber"),
-						rs.getString("firstname"),
-						rs.getString("lastname"),
-						rs.getString("dob"),
-						rs.getString("username"),
-						rs.getString("password"),
-						rs.getString("sessionid"));
+				rs.getInt("idnumber"),
+				rs.getString("firstname"),
+				rs.getString("lastname"),
+				rs.getString("dob"),
+				rs.getString("username"),
+				rs.getString("password"),
+				rs.getString("sessionid"));
 			}
+			
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getClass().getName() + ": " + e.getMessage());
 		}
@@ -87,7 +91,9 @@ public class PersistenceModule {
 
 
 			ps.executeUpdate();
-
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
@@ -108,6 +114,9 @@ public class PersistenceModule {
 			ps.setInt(2, idnumber);
 
 			ps.executeUpdate();
+			connection.commit();
+			ps.close();
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
@@ -137,6 +146,9 @@ public class PersistenceModule {
 						rs.getString("password"),
 						rs.getString("sessionid"));
 			}
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getClass().getName() + ": " + e.getMessage());
 		}
@@ -156,6 +168,10 @@ public class PersistenceModule {
 		try {
 			PreparedStatement ps = this.connection.prepareStatement(query);
 			results = ps.executeQuery();
+			
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
@@ -187,6 +203,10 @@ public class PersistenceModule {
 						rs.getDouble("cost"),
 						rs.getDouble("price"));
 			}
+			
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getClass().getName() + ": " + e.getMessage());
 		}
@@ -209,6 +229,9 @@ public class PersistenceModule {
             ps.setInt(8, product.getRecnum());
 
 			ps.executeUpdate();
+			connection.commit();
+			ps.close();
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
@@ -226,8 +249,12 @@ public class PersistenceModule {
 			ps.setInt(1, inventoryAmount);
 			ps.setInt(2, newQuantityAmount);
 			ps.setInt(3, productid);
+			
 			System.out.println("updating inventory: "+ps.toString());
 			ps.executeUpdate();
+			connection.commit();
+			ps.close();
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
@@ -243,6 +270,9 @@ public class PersistenceModule {
 			ps.setInt(1, purchase.getRecnum());
 
 			ps.executeUpdate();
+			connection.commit();
+			ps.close();
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
@@ -316,7 +346,10 @@ public class PersistenceModule {
 			ps.setInt(1, quantity.getQuantity());
 
 			ps.executeUpdate();
-
+			connection.commit();
+			ps.close();
+			connection.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
@@ -331,8 +364,12 @@ public class PersistenceModule {
 
 			ps.setInt(1, newQuantityAmount);
 			ps.setInt(2, recnum);
+			
 			System.out.println("updating the purchase: "+ps.toString());
 			ps.executeUpdate();
+			connection.commit();
+			ps.close();
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
@@ -377,7 +414,10 @@ public class PersistenceModule {
 				ps.setInt(3, purchase.getCustomer());
 				ps.executeUpdate();
 			}
+			
+			connection.commit();
 			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
@@ -399,6 +439,9 @@ public class PersistenceModule {
 			ps.setString(1, sessionid);
 			results = ps.executeQuery();
 
+			connection.commit();
+			ps.close();
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
@@ -462,8 +505,6 @@ public class PersistenceModule {
 				table += "</td>\n";
 				table +="</tr>\n";
 			}		
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
