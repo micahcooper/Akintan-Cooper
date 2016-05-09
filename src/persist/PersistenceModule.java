@@ -321,25 +321,7 @@ public class PersistenceModule {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
 		}
-	}
-	
-	public double getCartTotal( int customer){
-		String query = "select SUM(product.price * purchase.quantity) as cartprice from silverdb.product, silverdb.purchase where product.recnum = purchase.product and purchase.customer= ?";
-		double totalCartPrice = 0.0;
-		try {
-			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setInt(1, customer);
-			ResultSet rs = ps.executeQuery();
-			
-			totalCartPrice = rs.getDouble("cartprice");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block; add real error handling!
-			e.printStackTrace();
-		}
-		return totalCartPrice;
-	}
-		
+	}	
 	
 	public void doUpdatePurchaseQuantity( int newQuantityAmount, int recnum ){
 		String query = "UPDATE purchase set quantity = ? where recnum = ?";
