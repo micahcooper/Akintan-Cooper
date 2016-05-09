@@ -84,7 +84,7 @@ public class Product {
 		divContainter +="<p>"+formatter.format(this.getPrice())+" ("+this.getQuantity()+" left)</p>";
 		
 		divContainter += "<form action=\"BuyProduct\" method=\"post\">";
-		divContainter += "<input type=\"text\" name=\"quantity\" value=\"1\" size=\"5\">";
+		divContainter += "<input type=\"text\" name=\"quantity\" pattern=\"[0-9]*\" title=\"Use digits only\" value=\"1\" size=\"5\">";
 		divContainter += "<input type=\"hidden\" name=\"recnum\" value=\"" + this.getRecnum() + "\">";
 		divContainter += "<input type=\"submit\" value=\"Buy\"></form>";
 		
