@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Purchase;
 import persist.PersistenceModule;
 import persist.PersistenceModuleFactory;
 
@@ -44,7 +43,7 @@ public class UpdatePurchase extends HttpServlet {
 		int purchaseid = Integer.parseInt(request.getParameter("purchaseid"));
 		int currentCartAmount = Integer.parseInt(request.getParameter("currentCartAmount"));
 		int productid = Integer.parseInt(request.getParameter("productid"));
-		int cartTotal = Integer.parseInt(request.getParameter("cartTotal"));
+
 		String url = "/shoppingCart.jsp";
 		
 		// create a updateQuery object
@@ -59,7 +58,6 @@ public class UpdatePurchase extends HttpServlet {
 				System.out.println("here");
 				updateModule.doUpdateProductInventory(productid, inventoryAmount, newQuantityAmount);
 				updateModule.doUpdatePurchaseQuantity(newQuantityAmount, purchaseid);
-				updateModule.doUpdateCartTotal(cartTotal);
 			}
 			else{
 				// pass rejection message with the execution on to the shopping cart jsp

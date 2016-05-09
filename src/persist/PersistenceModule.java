@@ -323,19 +323,21 @@ public class PersistenceModule {
 		}
 	}
 	
-	public ResultSet doUpdateCartTotal( int customer){
+	public double getCartTotal( int customer){
 		String query = "select SUM(product.price * purchase.quantity) as cartprice from silverdb.product, silverdb.purchase where product.recnum = purchase.product and purchase.customer= ?";
-		ResultSet results = null;
+		double totalCartPrice = 0.0;
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, customer);
-			results = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
+			
+			totalCartPrice = rs.getDouble("cartprice");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block; add real error handling!
 			e.printStackTrace();
 		}
-		return results;
+		return totalCartPrice;
 	}
 		
 	
@@ -424,6 +426,7 @@ public class PersistenceModule {
 	
 	public String getHTMLCartTable( ResultSet rs ){
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		double totalCartPrice = 0.0, lineTotal = 0.0;
 		
 		String table ="";
 		table += "<table>\n";
@@ -446,19 +449,19 @@ public class PersistenceModule {
 						rs.getInt("purchaseQuantity"),
 						rs.getString("date_added"),
 						rs.getString("date_purchased"),
-						rs.getString("status"),
-						rs.getDouble("cartprice"));
+						rs.getString("status"));
 						
-				Purchase purchaseSet = new Purchase();
-				purchaseSet.setCartTotal(rs.getDouble("cartprice"));
-			    double total = purchase.getQuantity() * product.getPrice();
+
+			    lineTotal = purchase.getQuantity() * product.getPrice();
+			    totalCartPrice += lineTotal;
+			    
 				table += "<tr>";
 				table += "<td>"+purchase.getRecnum()+"</td>";
 				table += "<td>"+product.getName()+"</td>";
 				table += "<td>"+product.getDescription()+"</td>";
 				table += "<td>"+formatter.format(product.getPrice())+"</td>";
 				table += "<td>"+purchase.getQuantity()+"</td>";
-				table += "<td>"+formatter.format(total)+"</td>";
+				table += "<td>"+formatter.format(lineTotal)+"</td>";
 				
 				table +="\n\t<td>";
 				table += "<form action=\"UpdatePurchase\" method=\"post\">";
@@ -476,10 +479,6 @@ public class PersistenceModule {
 				table += "<input type=\"submit\" value=\"Delete item\"></form>";
 				table += "</td>\n";
 				table +="</tr>\n";
-				table += "<tr>";
-				table += "<td>Order Total</td>";
-				table += "<td>"+formatter.format(purchase.getCartTotal())+"</td>";
-				table +="</tr>\n";
 			}		
 			
 			
@@ -489,6 +488,7 @@ public class PersistenceModule {
 		}
 
 		table += "</table>";
+		table += "<div id=cartTotal>Cart Total: "+formatter.format(totalCartPrice)+"</div>";
 		return table;
 	}
 }

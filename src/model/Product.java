@@ -204,10 +204,4 @@ public class Product {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
-	public double getTotal() {
-		double total= 0.00;
-		total = price*quantity;
-		return total;
-	}
 }

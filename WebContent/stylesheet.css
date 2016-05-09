@@ -19,6 +19,13 @@ th{
 td{
 	padding:5px;
 }
+#cartTotal{
+	border:1px solid black;
+	float:right;
+	margin:10px;
+	max-width:200px;
+	padding:5px;
+}
 #content{
 	border:1px solid black;
 	float:left;

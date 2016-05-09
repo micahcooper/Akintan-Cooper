@@ -12,7 +12,6 @@ public class Purchase {
 	private int product;
 	private int customer;
 	private int quantity;
-	private double cartTotal;
 	private String date_added;
 	private String date_purchased;
 	private String status;
@@ -24,7 +23,7 @@ public class Purchase {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Purchase(int recnum, int product, int customer, int quantity, String date_added, String date_purchased, String status, double cartTotal){
+	public Purchase(int recnum, int product, int customer, int quantity, String date_added, String date_purchased, String status){
 		this.recnum=recnum;
 		this.product=product;
 		this.customer=customer;
@@ -32,7 +31,6 @@ public class Purchase {
 		this.date_added=date_added;
 		this.date_purchased=date_purchased;
 		this.status=status;
-		this.cartTotal=cartTotal;
 	}
 	
 	
@@ -53,7 +51,6 @@ public class Purchase {
 		row +="<td>"+this.getDate_added()+"</td>";
 		row +="<td>"+this.getDate_purchased()+"</td>";
 		row +="<td>"+this.getStatus()+"</td>";
-		row +="<td>"+this.getCartTotal()+"</td>";
 		
 		row +="\n\t<td>";
 		row += "<a class=button href=viewProduct?sku=" + this.getRecnum() + " >UPDATE</a>";
@@ -66,19 +63,6 @@ public class Purchase {
 		row +="</tr>\n";
 
 		return row;
-	}
-	/**
-	 * @return the cartTotal
-	 */
-	public double getCartTotal() {
-		return cartTotal;
-	}
-
-	/**
-	 * @param cartTotal the cartTotal to set
-	 */
-	public void setCartTotal(double cartTotal) {
-		this.cartTotal = cartTotal;
 	}
 
 	/**
