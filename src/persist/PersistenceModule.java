@@ -408,14 +408,15 @@ public class PersistenceModule {
     }
 
     public ResultSet doReadCustomerPurchases(String sessionid) {
-        String query =
-            "SELECT  product.recnum as productid, product.name as productName, product.description, product.imageURL, product.category, product.quantity as inventoryQuantity, product.cost, product.price," + "purchase.recnum as purchaseid, purchase.quantity as purchaseQuantity, date_added, date_purchased, status," + "idnumber as customerid, firstname, lastname, dob, password, username, sessionid " + "from purchase, customer, product " + "where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
-        ResultSet results = null;
-
+    	ResultSet results = null;
+    	PreparedStatement ps = null;
+    	
+        String query = "SELECT  product.recnum as productid, product.name as productName, product.description, product.imageURL, product.category, product.quantity as inventoryQuantity, product.cost, product.price," + "purchase.recnum as purchaseid, purchase.quantity as purchaseQuantity, date_added, date_purchased, status," + "idnumber as customerid, firstname, lastname, dob, password, username, sessionid " + "from purchase, customer, product " + "where purchase.customer=customer.idnumber AND purchase.product=product.recnum AND customer.sessionid=?";
+        
         try {
-            PreparedStatement ps = connection.prepareStatement(query);
-
+            ps = connection.prepareStatement(query);
             ps.setString(1, sessionid);
+            System.out.println("Customer purchases: "+ps.toString());
             results = ps.executeQuery();
         } catch (SQLException e) {
             // TODO Auto-generated catch block; add real error handling!
