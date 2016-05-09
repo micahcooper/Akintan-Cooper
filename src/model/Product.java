@@ -6,7 +6,7 @@ package model;
 import java.text.NumberFormat;
 
 /**
- * @author micah cooper
+ * @authors Wale Akintan and Micah Cooper
  *
  */
 public class Product {

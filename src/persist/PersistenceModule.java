@@ -11,7 +11,7 @@ package persist;
 import model.Customer;
 
 /**
- * @author micah cooper
+ * @author Wale Akintan and Micah Cooper
  *
  */
 

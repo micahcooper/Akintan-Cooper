@@ -4,7 +4,7 @@
 package model;
 
 /**
- * @author mrcooper
+ * @author Wale Akintan and Micah Cooper
  *
  */
 public class Purchase {
@@ -20,7 +20,7 @@ public class Purchase {
 	 * 
 	 */
 	public Purchase() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	public Purchase(int recnum, int product, int customer, int quantity, String date_added, String date_purchased, String status){

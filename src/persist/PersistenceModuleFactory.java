@@ -4,7 +4,7 @@
 package persist;
 
 /**
- * @author micah cooper
+ * @author Wale Akintan and Micah Cooper
  *
  *	Used for creating a persistence module without worrying about the creation logic
  */

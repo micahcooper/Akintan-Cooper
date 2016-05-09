@@ -1,7 +1,7 @@
 package model;
 /**
  * Java representation of the User table in the database
- * @author Brian
+ * @author based on Benzinger's work
  *
  */
 public class Customer {

@@ -24,7 +24,6 @@ public class ViewProduct extends HttpServlet {
      */
     public ViewProduct() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

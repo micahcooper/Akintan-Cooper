@@ -70,7 +70,7 @@ public class BuyProduct extends HttpServlet {
 			purchase.setStatus(status);
 			purchase.setQuantity(quantityRequested);
 			
-			//TODO create a check to make sure there is enough inventory to cover the purchase
+			//check to make sure there is enough inventory to cover the purchase
 			if( product.getQuantity() > quantityRequested ){
 				//create a purchase module to make database calls
 				PersistenceModule purchaseModule;

@@ -25,7 +25,6 @@ public class DeletePurchase extends HttpServlet {
      */
     public DeletePurchase() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
