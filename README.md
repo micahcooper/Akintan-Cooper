@@ -2,5 +2,6 @@
 #####mist7570 final project
 #####collaborators: Wale Akintan and Micah Cooper
 
-Items of note:
-1.  what to say?
+Built with Java 1.7, tested on Tomcat 7
+
+Database name is silverpotato
