@@ -65,6 +65,7 @@ public class Register extends HttpServlet {
 		try {
 			customerModule = PersistenceModuleFactory.createPersistenceModule();
 			customerModule.addUser(customer);
+			request.getSession().setAttribute("customer", customer);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
